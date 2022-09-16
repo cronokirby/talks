@@ -6,7 +6,7 @@ import Layout from '../components/Layout';
 
 
 function H1(props: any) {
-    return <h1 className="text-3xl" {...props}>{props.children}</h1>;
+    return <h1 className="text-2xl font-serif font-bold" {...props}>{props.children}</h1>;
 }
 
 const components = {
