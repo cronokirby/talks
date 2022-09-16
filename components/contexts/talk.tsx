@@ -11,21 +11,17 @@ export interface TalkContextStaticValues {
     readonly socialLink: string;
     /// The date of the talk.
     readonly date: Date;
-    /// The total number of sections.
-    readonly sectionCount: number;
+    /// The start position of each section
+    readonly sectionStarts: number[];
     /// The total number of slides.
     readonly slideCount: number;
-
 }
 
 export interface TalkContextValue extends TalkContextStaticValues {
-    readonly sectionName: string;
     readonly sectionPos: number;
     readonly slidePos: number;
-    /// Modify the current section name.
-    setSectionName(name: string): void;
     /// Set the section position.
-    setSectionPos(f: (current: number) => number): void;
+    setSectionPos(to: number): void;
     /// Set the slide position.
     setSlidePos(f: (current: number) => number): void;
 }
@@ -41,21 +37,17 @@ export function useTalkContext(): TalkContextValue {
 }
 
 export function TalkProvider(props: any) {
-    const [sectionName, setSectionName] = React.useState("");
-    const [sectionPos, setSectionPos] = React.useState(0);
-    const [slidePos, setSlidePos] = React.useState(0);
+    const [slidePos, setSlidePos] = React.useState(-1);
 
     const value = React.useMemo<TalkContextValue>(() => {
         return {
-            sectionName,
-            setSectionName,
-            sectionPos,
-            setSectionPos,
+            sectionPos: props.startValue.sectionStarts.findIndex((x: number) => x > slidePos) - 1,
+            setSectionPos: (x: number) => setSlidePos(props.startValue.sectionStarts[x]),
             slidePos,
             setSlidePos,
-            ...props.value
+            ...props.startValue
         };
-    }, [props.value, sectionName, sectionPos, slidePos]);
+    }, [props.startValue, slidePos]);
 
     return <TalkContext.Provider value={value} {...props} />;
 }

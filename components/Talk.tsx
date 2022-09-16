@@ -2,20 +2,36 @@ import React from "react";
 import { TalkProvider, useTalkContext } from "./contexts/talk";
 import Title from "./Title";
 
-function getSectionAndSlideCount(children: any): { section: number, slide: number } {
-    let section = 0;
+function getSectionStartsAndSlideCount(children: any): { sectionStarts: number[], slide: number } {
+    let sectionStarts = [0];
     let slide = 0;
     React.Children.forEach(children, (child) => {
-        section += 1;
-        slide += React.Children.count(child.props.children);
+        const count = React.Children.count(child.props.children);
+        sectionStarts.push(slide + count);
+        slide += count;
     });
-    return { section, slide };
+    return { sectionStarts, slide };
 }
 
 function TalkContainer(props: any) {
     const ctx = useTalkContext();
+    console.log(ctx.slidePos);
+    if (ctx.sectionPos < 0) {
+        return <Title {...ctx} />
+    }
+    return <div>{ctx.sectionPos}</div>
+}
 
-    return <Title {...ctx} />
+function TalkControls(props: any) {
+    const ctx = useTalkContext();
+
+    const onClick = () => {
+        ctx.setSlidePos(x => x + 1);
+    };
+
+    return <div onClick={onClick}>
+        {props.children}
+    </div>
 }
 
 export interface TalkProps {
@@ -28,20 +44,22 @@ export interface TalkProps {
 }
 
 export default function Talk(props: TalkProps) {
-    const { section, slide } = getSectionAndSlideCount(props.children);
-    const value = {
+    const { sectionStarts, slide } = getSectionStartsAndSlideCount(props.children);
+    const startValue = {
         title: props.title,
         author: props.author,
         date: new Date(props.date),
         social: props.social,
         socialLink: props.socialLink,
-        sectionCount: section,
+        sectionStarts: sectionStarts,
         slideCount: slide
     };
-    return (<TalkProvider value={value}>
-        <TalkContainer>
-            {props.children}
-        </TalkContainer>
+    return (<TalkProvider startValue={startValue}>
+        <TalkControls>
+            <TalkContainer>
+                {props.children}
+            </TalkContainer>
+        </TalkControls>
     </TalkProvider>);
 }
 

@@ -39,6 +39,5 @@ export async function getStaticProps({ params }: any) {
 
 export async function getStaticPaths() {
     const talks = await fs.readdir(path.join(process.cwd(), 'talks'));
-    console.log(talks);
     return { paths: talks.map(t => ({ params: { talk: path.parse(t).name } })), fallback: false }
 }
