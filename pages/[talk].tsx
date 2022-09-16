@@ -3,20 +3,26 @@ import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote } from 'next-mdx-remote';
 import path from 'path';
 
-import SlideContainer from '../components/SlideContainer';
-import Title from '../components/Title';
-import Slide from '../components/Slide';
+import Section from '../components/Section';
+import TextSlide from '../components/TextSlide';
+import Talk from '../components/Talk';
 
 
 function H1(props: any) {
     return <h1 className="text-2xl font-serif font-bold" {...props}>{props.children}</h1>;
 }
 
+
+function Ul(props: any) {
+    return <ul className="text-left list-disc" {...props}>{props.children}</ul>
+}
+
 const components = {
     h1: H1,
-    Title,
-    Slide,
-    SlideContainer,
+    ul: Ul,
+    Talk,
+    Section,
+    TextSlide,
 };
 
 export default function Post({ source }: any) {
