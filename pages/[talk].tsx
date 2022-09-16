@@ -2,10 +2,11 @@ import { promises as fs } from 'fs';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote } from 'next-mdx-remote';
 import path from 'path';
+import Layout from '../components/Layout';
 
 
 function H1(props: any) {
-    return <h1 className="text-red-500" {...props}>{props.children}</h1>;
+    return <h1 className="text-3xl" {...props}>{props.children}</h1>;
 }
 
 const components = {
@@ -14,9 +15,9 @@ const components = {
 
 export default function Post({ source }: any) {
     return (
-        <div className="wrapper">
+        <Layout>
             <MDXRemote {...source} components={components} />
-        </div>
+        </Layout>
     );
 }
 
