@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import React from 'react';
 
 export interface TalkContextStaticValues {
@@ -23,7 +24,7 @@ export interface TalkContextValue extends TalkContextStaticValues {
     /// Set the section position.
     setSectionPos(to: number): void;
     /// Set the slide position.
-    setSlidePos(f: (current: number) => number): void;
+    setSlidePos(to: number): void;
 }
 
 const TalkContext = React.createContext<TalkContextValue | null>(null);
@@ -37,9 +38,15 @@ export function useTalkContext(): TalkContextValue {
 }
 
 export function TalkProvider(props: any) {
-    const [slidePos, setSlidePos] = React.useState(-1);
+    const router = useRouter()
+
+    const setSlidePos = (to: number) => {
+        router.push(`${router.asPath.split('#')[0]}#${to}`, undefined, { shallow: true });
+    };
 
     const value = React.useMemo<TalkContextValue>(() => {
+        const splits = router.asPath.split('#');
+        const slidePos = splits.length >= 2 ? Number(splits[1]) : -1;
         return {
             sectionPos: props.startValue.sectionStarts.findIndex((x: number) => x > slidePos) - 1,
             setSectionPos: (x: number) => setSlidePos(props.startValue.sectionStarts[x]),
@@ -47,7 +54,7 @@ export function TalkProvider(props: any) {
             setSlidePos,
             ...props.startValue
         };
-    }, [props.startValue, slidePos]);
+    }, [props.startValue, router.asPath]);
 
     return <TalkContext.Provider value={value} {...props} />;
 }
