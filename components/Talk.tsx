@@ -39,7 +39,18 @@ function TalkControls(props: any) {
         ctx.setSlidePos(x => x + 1);
     };
 
-    return <div onClick={onClick}>
+    const onKeyPress = (event: React.KeyboardEvent) => {
+        if (event.key === ' ' || event.key == 's' || event.key == 'ArrowDown') {
+            ctx.setSlidePos(x => x < ctx.slideCount ? x + 1 : ctx.slideCount);
+            return;
+        }
+        if (event.key == 'w' || event.key == 'ArrowUp') {
+            ctx.setSlidePos(x => x > -1 ? x - 1 : -1);
+            return;
+        }
+    };
+
+    return <div onClick={onClick} onKeyDown={onKeyPress} tabIndex={0}>
         {props.children}
     </div>
 }
