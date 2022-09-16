@@ -3,6 +3,7 @@ import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote } from 'next-mdx-remote';
 import path from 'path';
 import Layout from '../components/Layout';
+import Title from '../components/Title';
 
 
 function H1(props: any) {
@@ -10,7 +11,8 @@ function H1(props: any) {
 }
 
 const components = {
-    h1: H1
+    h1: H1,
+    Title,
 };
 
 export default function Post({ source }: any) {
