@@ -1,3 +1,3 @@
 export default function Section(props: any) {
-    return <div></div>
+    return <div>SECTION</div>
 }

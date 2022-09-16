@@ -15,11 +15,21 @@ function getSectionStartsAndSlideCount(children: any): { sectionStarts: number[]
 
 function TalkContainer(props: any) {
     const ctx = useTalkContext();
-    console.log(ctx.slidePos);
+
+    const sections = React.useMemo(() => {
+        const sections: any[] = [];
+        React.Children.forEach(props.children, child => {
+            sections.push(child);
+        });
+        return sections;
+    }, [props.children]);
+
     if (ctx.sectionPos < 0) {
         return <Title {...ctx} />
     }
-    return <div>{ctx.sectionPos}</div>
+    return <React.Fragment>
+        {sections[ctx.sectionPos]}
+    </React.Fragment>;
 }
 
 function TalkControls(props: any) {
