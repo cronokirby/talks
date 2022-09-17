@@ -58,8 +58,8 @@ export function TalkProvider(props: any) {
         if (to < -1) {
             to = -1;
         }
-        if (to > props.startValue.slideCount) {
-            to = props.startValue.slideCount;
+        if (to >= props.startValue.slideCount) {
+            to = props.startValue.slideCount - 1;
         }
         router.push(`${router.asPath.split('#')[0]}#${to}`, undefined, { shallow: true });
     };
