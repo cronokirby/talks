@@ -6,6 +6,7 @@ import path from 'path';
 import Section from '../components/Section';
 import TextSlide from '../components/TextSlide';
 import Talk from '../components/Talk';
+import Splash from '../components/Splash';
 
 
 function Ul(props: any) {
@@ -13,7 +14,7 @@ function Ul(props: any) {
 }
 
 function H1(props: any) {
-    return <h1 className="text-2xl font-semibold" {...props}>{props.children}</h1>
+    return <h1 className="text-2xl font-semibold mb-4" {...props}>{props.children}</h1>
 }
 
 const components = {
@@ -22,6 +23,7 @@ const components = {
     Talk,
     Section,
     TextSlide,
+    Splash
 };
 
 export default function Post({ source }: any) {
