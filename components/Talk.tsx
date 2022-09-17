@@ -1,4 +1,5 @@
 import React from "react";
+import { KeyProvider, useKeyContext } from "./contexts/key";
 import { TalkProvider, useTalkContext } from "./contexts/talk";
 import Title from "./Title";
 
@@ -34,10 +35,28 @@ function TalkContainer(props: any) {
 
 function TalkControls(props: any) {
     const ctx = useTalkContext();
+    const keys = useKeyContext();
 
-    const onClick = () => {
+    const onForward = () => {
+        console.log('forward outer');
         ctx.setSlidePos(ctx.slidePos + 1);
-    };
+        return true;
+    }
+
+    const onBack = () => {
+        ctx.setSlidePos(ctx.slidePos - 1);
+        return true;
+    }
+
+    React.useEffect(() => {
+        keys.addOnForward(false, onForward);
+        keys.addOnBack(false, onBack);
+
+        return () => {
+            keys.removeOnForward(onForward);
+            keys.removeOnBack(onBack);
+        }
+    }, [ctx.slidePos, ctx.setSlidePos]);
 
     const onKeyPress = (event: React.KeyboardEvent) => {
         if (event.key === ' ' || event.key == 's' || event.key == 'ArrowDown') {
@@ -50,7 +69,7 @@ function TalkControls(props: any) {
         }
     };
 
-    return <div onClick={onClick} onKeyDown={onKeyPress} tabIndex={0} className="select-none">
+    return <div onClick={onForward} onKeyDown={onKeyPress} tabIndex={0} className="select-none">
         {props.children}
     </div>
 }
@@ -75,12 +94,14 @@ export default function Talk(props: TalkProps) {
         sectionStarts: sectionStarts,
         slideCount: slide
     };
-    return (<TalkProvider startValue={startValue}>
-        <TalkControls>
-            <TalkContainer>
-                {props.children}
-            </TalkContainer>
-        </TalkControls>
-    </TalkProvider>);
+    return <KeyProvider>
+        <TalkProvider startValue={startValue}>
+            <TalkControls>
+                <TalkContainer>
+                    {props.children}
+                </TalkContainer>
+            </TalkControls>
+        </TalkProvider>
+    </KeyProvider>;
 }
 
