@@ -6,12 +6,12 @@ import rehypeKatex from 'rehype-katex'
 import remarkMath from 'remark-math'
 
 
-import Section from '../components/Section';
-import TextSlide from '../components/TextSlide';
-import Talk from '../components/Talk';
-import Splash from '../components/Splash';
-import Img from '../components/Img';
-import Reveal from '../components/Reveal';
+import Section from '../../components/Section';
+import TextSlide from '../../components/TextSlide';
+import Talk from '../../components/Talk';
+import Splash from '../../components/Splash';
+import Img from '../../components/Img';
+import Reveal from '../../components/Reveal';
 import React from 'react';
 
 
@@ -46,7 +46,8 @@ export default function Post({ source }: any) {
 }
 
 export async function getStaticProps({ params }: any) {
-    const source = await fs.readFile(path.join(process.cwd(), `talks/${params.talk}.mdx`));
+    console.log(params.talk);
+    const source = await fs.readFile(path.join(process.cwd(), `talks/${path.join(...params.all)}.mdx`));
     const mdxSource = await serialize(source.toString(), {
         mdxOptions: {
             remarkPlugins: [remarkMath],
@@ -57,6 +58,16 @@ export async function getStaticProps({ params }: any) {
 }
 
 export async function getStaticPaths() {
-    const talks = await fs.readdir(path.join(process.cwd(), 'talks'));
-    return { paths: talks.map(t => ({ params: { talk: path.parse(t).name } })), fallback: false }
+    const talks: string[][] = [];
+
+    const root = path.join(process.cwd(), 'talks');
+    for (const year of await fs.readdir(root)) {
+        for (const month of await fs.readdir(path.join(root, year))) {
+            for (const leaf of await fs.readdir(path.join(root, year, month))) {
+                talks.push([year, month, path.parse(leaf).name]);
+            }
+        }
+    }
+    console.log(talks)
+    return { paths: talks.map(talk => ({ params: { all: talk } })), fallback: false }
 }
