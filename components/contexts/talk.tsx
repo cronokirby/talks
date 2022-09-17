@@ -61,12 +61,13 @@ export function TalkProvider(props: any) {
         if (to >= props.startValue.slideCount) {
             to = props.startValue.slideCount - 1;
         }
-        router.push(`${router.asPath.split('#')[0]}#${to}`, undefined, { shallow: true });
+        router.query.slide = `${to}`;
+        router.push(router, undefined, { shallow: true });
     };
 
     const value = React.useMemo<TalkContextValue>(() => {
         const splits = router.asPath.split('#');
-        const slidePos = splits.length >= 2 ? Number(splits[1]) : -1;
+        const slidePos = router.query.slide !== undefined ? Number(router.query.slide) : -1;
         const { sectionPos, shift } = getSectionPosAndShift(slidePos, props.startValue.sectionStarts);
         return {
             sectionPos,
