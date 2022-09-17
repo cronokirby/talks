@@ -12,7 +12,12 @@ function Ul(props: any) {
     return <ul className="text-left list-disc" {...props}>{props.children}</ul>
 }
 
+function H1(props: any) {
+    return <h1 className="text-2xl font-semibold" {...props}>{props.children}</h1>
+}
+
 const components = {
+    h1: H1,
     ul: Ul,
     Talk,
     Section,
