@@ -8,6 +8,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontSize: {
+        'xxs': '0.4rem',
+        ...defaultTheme.fontSize
+      },
       fontFamily: {
         'sans': ['IBM Plex Sans', ...defaultTheme.fontFamily.sans],
         'serif': ['IBM Plex Serif', ...defaultTheme.fontFamily.serif],
