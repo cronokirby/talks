@@ -1,6 +1,19 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 
+function getSectionPosAndShift(slidePos: number, sectionStarts: number[]): { sectionPos: number, shift: number } {
+    let sectionPos = -1;
+    let shift = 0;
+    for (let i = 0; i < sectionStarts.length; ++i) {
+        if (slidePos < sectionStarts[i]) {
+            sectionPos = i - 1;
+            shift = slidePos - sectionStarts[i - 1];
+            break;
+        }
+    }
+    return { sectionPos, shift };
+}
+
 export interface TalkContextStaticValues {
     /// The title of the talk.
     readonly title: string;
@@ -21,6 +34,7 @@ export interface TalkContextStaticValues {
 export interface TalkContextValue extends TalkContextStaticValues {
     readonly sectionPos: number;
     readonly slidePos: number;
+    readonly sectionShift: number;
     /// Set the section position.
     setSectionPos(to: number): void;
     /// Set the slide position.
@@ -41,14 +55,22 @@ export function TalkProvider(props: any) {
     const router = useRouter()
 
     const setSlidePos = (to: number) => {
+        if (to < -1) {
+            to = -1;
+        }
+        if (to > props.startValue.slideCount) {
+            to = props.startValue.slideCount;
+        }
         router.push(`${router.asPath.split('#')[0]}#${to}`, undefined, { shallow: true });
     };
 
     const value = React.useMemo<TalkContextValue>(() => {
         const splits = router.asPath.split('#');
         const slidePos = splits.length >= 2 ? Number(splits[1]) : -1;
+        const { sectionPos, shift } = getSectionPosAndShift(slidePos, props.startValue.sectionStarts);
         return {
-            sectionPos: props.startValue.sectionStarts.findIndex((x: number) => x > slidePos) - 1,
+            sectionPos,
+            sectionShift: shift,
             setSectionPos: (x: number) => setSlidePos(props.startValue.sectionStarts[x]),
             slidePos,
             setSlidePos,

@@ -36,16 +36,16 @@ function TalkControls(props: any) {
     const ctx = useTalkContext();
 
     const onClick = () => {
-        ctx.setSlidePos(ctx.slidePos < ctx.slideCount ? ctx.slidePos + 1 : ctx.slideCount);
+        ctx.setSlidePos(ctx.slidePos + 1);
     };
 
     const onKeyPress = (event: React.KeyboardEvent) => {
         if (event.key === ' ' || event.key == 's' || event.key == 'ArrowDown') {
-            ctx.setSlidePos(ctx.slidePos < ctx.slideCount ? ctx.slidePos + 1 : ctx.slideCount);
+            ctx.setSlidePos(ctx.slidePos + 1);
             return;
         }
         if (event.key == 'w' || event.key == 'ArrowUp') {
-            ctx.setSlidePos(ctx.slidePos > -1 ? ctx.slidePos - 1 : -1);
+            ctx.setSlidePos(ctx.slidePos - 1);
             return;
         }
     };
