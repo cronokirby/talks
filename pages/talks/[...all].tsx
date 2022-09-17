@@ -46,7 +46,6 @@ export default function Post({ source }: any) {
 }
 
 export async function getStaticProps({ params }: any) {
-    console.log(params.talk);
     const source = await fs.readFile(path.join(process.cwd(), `talks/${path.join(...params.all)}.mdx`));
     const mdxSource = await serialize(source.toString(), {
         mdxOptions: {
@@ -68,6 +67,5 @@ export async function getStaticPaths() {
             }
         }
     }
-    console.log(talks)
     return { paths: talks.map(talk => ({ params: { all: talk } })), fallback: false }
 }
