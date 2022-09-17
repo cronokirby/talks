@@ -8,17 +8,11 @@ import TextSlide from '../components/TextSlide';
 import Talk from '../components/Talk';
 
 
-function H1(props: any) {
-    return <h1 className="text-2xl font-serif font-bold" {...props}>{props.children}</h1>;
-}
-
-
 function Ul(props: any) {
     return <ul className="text-left list-disc" {...props}>{props.children}</ul>
 }
 
 const components = {
-    h1: H1,
     ul: Ul,
     Talk,
     Section,

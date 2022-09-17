@@ -1,15 +1,17 @@
 import Image from 'next/image';
 import ck from '../public/ck.png';
+import Background from './Background';
 
 interface TitleProps {
     title: string,
     author: string,
     social: string,
-    socialLink: string
+    socialLink: string,
+    bg?: string;
 }
 
 export default function Title(props: TitleProps) {
-    return <div className="bg-gradient-to-br from-blue-100 to-pink-200 w-screen h-screen text-slate-800">
+    return <Background bg={props.bg}>
         <div className="w-10/12 mx-auto gap-y-6 flex flex-col justify-center h-full">
             <h1 className="text-3xl font-serif font-bold underline decoration-single decoration-blue-600">{props.title}</h1>
             <div className="flex flex-row gap-x-12 mx-auto">
@@ -20,5 +22,5 @@ export default function Title(props: TitleProps) {
                 </div>
             </div>
         </div>
-    </div>;
+    </Background>;
 }

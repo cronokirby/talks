@@ -1,8 +1,13 @@
+import Background from "./Background";
+
 interface TextSlideProps {
     title: string;
+    bg?: string;
     children: any;
 }
 
 export default function TextSlide(props: TextSlideProps) {
-    return <div>{props.children}</div>
+    return <Background bg={props.bg}>
+        {props.children}
+    </Background>;
 }
