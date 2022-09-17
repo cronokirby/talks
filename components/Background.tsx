@@ -10,7 +10,7 @@ function bgToClass(bg?: string): string {
     if (bg === 'pink') {
         return "bg-pink-500 text-slate-100";
     }
-    return "bg-gradient-to-br from-blue-200 to-pink-200 text-slate-800"
+    return "bg-gradient-to-br from-blue-200 via-indigo-100 to-pink-200 text-slate-800"
 }
 
 export default function Background(props: BackgroundProps) {
