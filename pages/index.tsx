@@ -21,6 +21,5 @@ export async function getStaticProps() {
       }
     }
   }
-  console.log(talks)
   return { props: { talks } }
 }

@@ -25,7 +25,6 @@ export default function TextSlide(props: TextSlideProps) {
     };
 
     const onForward = () => {
-        console.log('forward inner');
         if (revealPos >= count - 1) {
             return false;
         }

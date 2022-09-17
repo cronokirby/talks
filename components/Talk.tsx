@@ -38,7 +38,6 @@ function TalkControls(props: any) {
     const keys = useKeyContext();
 
     const onForward = () => {
-        console.log('forward outer');
         ctx.setSlidePos(ctx.slidePos + 1);
         return true;
     }
