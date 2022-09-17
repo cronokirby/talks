@@ -10,6 +10,7 @@ import Section from '../components/Section';
 import TextSlide from '../components/TextSlide';
 import Talk from '../components/Talk';
 import Splash from '../components/Splash';
+import Img from '../components/Img';
 import React from 'react';
 
 
@@ -32,7 +33,8 @@ const components = {
     Talk,
     Section,
     TextSlide,
-    Splash
+    Splash,
+    Img,
 };
 
 export default function Post({ source }: any) {

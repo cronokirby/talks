@@ -66,7 +66,6 @@ export function TalkProvider(props: any) {
     };
 
     const value = React.useMemo<TalkContextValue>(() => {
-        const splits = router.asPath.split('#');
         const slidePos = router.query.slide !== undefined ? Number(router.query.slide) : -1;
         const { sectionPos, shift } = getSectionPosAndShift(slidePos, props.startValue.sectionStarts);
         return {
