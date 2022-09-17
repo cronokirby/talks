@@ -50,7 +50,7 @@ function TalkControls(props: any) {
         }
     };
 
-    return <div onClick={onClick} onKeyDown={onKeyPress} tabIndex={0}>
+    return <div onClick={onClick} onKeyDown={onKeyPress} tabIndex={0} className="select-none">
         {props.children}
     </div>
 }

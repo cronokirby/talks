@@ -11,6 +11,7 @@ import TextSlide from '../components/TextSlide';
 import Talk from '../components/Talk';
 import Splash from '../components/Splash';
 import Img from '../components/Img';
+import Reveal from '../components/Reveal';
 import React from 'react';
 
 
@@ -35,6 +36,7 @@ const components = {
     TextSlide,
     Splash,
     Img,
+    Reveal,
 };
 
 export default function Post({ source }: any) {
